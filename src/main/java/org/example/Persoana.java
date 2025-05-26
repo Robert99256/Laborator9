@@ -16,13 +16,14 @@ public class Persoana {
         this.prenume = prenume;
     }
 
+    // Constructor care primeste o linie de text si o imparte in nume si prenume
     public Persoana(String linieFisier) {
         String[] parts = linieFisier.split(" ");
         if (parts.length >= 2) {
             this.nume = parts[0];
             this.prenume = parts[1];
         } else {
-            this.nume = linieFisier;
+            this.nume = linieFisier;// Daca linia contine doar un singur cuvant, il considera nume si lasa prenumele gol
             this.prenume = "";
         }
     }
@@ -34,10 +35,10 @@ public class Persoana {
 
     public static List<Persoana> citesteDinFisier(String numeFisier) {
         List<Persoana> persoane = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(numeFisier))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(numeFisier))) {// Deschide fisierul pentru citire si asigura inchiderea automata la final
             String linie;
-            while ((linie = br.readLine()) != null) {
-                persoane.add(new Persoana(linie));
+            while ((linie = br.readLine()) != null) {// Citeste fiecare linie din fisier pana cand nu mai sunt linii
+                persoane.add(new Persoana(linie));// Creeaza persoana din linie
             }
         } catch (IOException e) {
             System.out.println("Eroare la citirea fisierului: " + e.getMessage());
@@ -45,17 +46,19 @@ public class Persoana {
         return persoane;
     }
 
+    // Afiseaza fiecare persoana din lista in consola
     public static void afiseaza(List<Persoana> persoane) {
         for (Persoana p : persoane) {
             System.out.println(p);
         }
     }
 
+    // Exporta lista de persoane fie in fisier, fie in consola, in functie de parametru
     public static void export(List<Persoana> persoane, String parametru) {
         if (parametru.equals("fisier")) {
             try (FileWriter writer = new FileWriter("persoane.txt")) {
                 for (Persoana p : persoane) {
-                    writer.write(p.toString() + "\n");
+                    writer.write(p.toString() + "\n");// Scrie persoana in fisier
                 }
             } catch (IOException e) {
                 System.out.println("Eroare la scrierea in fisier: " + e.getMessage());
